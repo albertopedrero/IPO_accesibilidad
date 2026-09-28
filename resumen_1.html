@@ -92,6 +92,7 @@ svg .surf{stroke:var(--surface)}
     <div class="row">
       <button type="button" id="connect">Conectar</button>
       <button type="button" id="disconnect" class="sec" hidden>Desconectar</button>
+      <a id="opendirect" href="#" target="_blank" rel="noopener" hidden>Abrir esa URL en una pestaña nueva</a>
       <span id="sheetstatus" class="note" role="status"><span class="dot off" aria-hidden="true"></span>Sin conectar.</span>
     </div>
     <p id="sheeterr" class="err" hidden></p>
@@ -305,25 +306,43 @@ function setSheetStatus(text, on){
 }
 function pollSheet(url){
   var bust = url + (url.indexOf('?')>=0 ? '&' : '?') + 'cachebust=' + Date.now();
-  fetch(bust, { cache:'no-store' }).then(function(r){
-    if(!r.ok) throw new Error('El servidor respondió '+r.status+'.');
+  var httpStatus = null;
+  fetch(bust, { cache:'no-store', redirect:'follow' }).then(function(r){
+    httpStatus = r.status;
+    if(!r.ok) throw { kind:'http', message:'El servidor respondió '+r.status+'.' };
     return r.text();
   }).then(function(text){
+    var looksHtml = /^\s*<(!doctype|html)/i.test(text);
+    if(looksHtml){
+      throw { kind:'html', message:'La URL ha devuelto una página web (HTML), no un CSV. Suele significar que el Sheet no está realmente publicado, o que pide iniciar sesión.' };
+    }
     var res = parse(csvToPlain(text));
     sheetRows = res.rows;
     $('sheeterr').hidden = true;
-    setSheetStatus('Conectado · '+sheetRows.length+' códigos · actualizado '+new Date().toLocaleTimeString('es-ES'), true);
+    if(res.rows.length === 0 && text.trim().length > 0){
+      setSheetStatus('Conectado · 0 códigos con el formato esperado · actualizado '+new Date().toLocaleTimeString('es-ES'), false);
+      $('sheeterr').hidden = false;
+      $('sheeterr').textContent = 'Se ha leído el Sheet, pero ninguna fila tiene el formato versión,estado,segundos,… . Comprueba que has publicado la pestaña de respuestas correcta (no una pestaña vacía) y que la pregunta del Form pide pegar el código tal cual.';
+    } else {
+      setSheetStatus('Conectado · '+sheetRows.length+' códigos · actualizado '+new Date().toLocaleTimeString('es-ES'), true);
+    }
     update();
   }).catch(function(err){
     setSheetStatus('Conectado, pero la última lectura falló.', false);
     $('sheeterr').hidden = false;
-    $('sheeterr').textContent = 'No se ha podido leer el Sheet (' + err.message + '). Comprueba que sigue publicado como CSV y que hay conexión a internet. Se reintentará en unos segundos.';
+    if(err && (err.kind === 'http' || err.kind === 'html')){
+      $('sheeterr').textContent = err.message + ' Se reintentará en unos segundos.';
+    } else {
+      // fetch no llegó a completarse: casi siempre CORS, mixed-content o falta de red, no un fallo del código.
+      $('sheeterr').textContent = 'La petición al Sheet no se ha podido completar (posible bloqueo de CORS, falta de red, o un bloqueador de anuncios/extensión). Usa el enlace "Abrir esa URL en una pestaña nueva" de arriba para ver qué devuelve realmente, y revisa la consola del navegador (F12 → Console) por si hay un mensaje de CORS. Se reintentará en unos segundos.';
+    }
   });
 }
 function startSheet(url){
   stopSheet();
   sheetRows = [];
   $('disconnect').hidden = false;
+  $('opendirect').href = url; $('opendirect').hidden = false;
   setSheetStatus('Conectando…', false);
   pollSheet(url);
   sheetTimer = setInterval(function(){ pollSheet(url); }, 5000);
@@ -333,6 +352,7 @@ function stopSheet(){
   if(sheetTimer){ clearInterval(sheetTimer); sheetTimer = null; }
   sheetRows = [];
   $('disconnect').hidden = true;
+  $('opendirect').hidden = true;
   $('sheeterr').hidden = true;
   setSheetStatus('Sin conectar.', false);
 }
