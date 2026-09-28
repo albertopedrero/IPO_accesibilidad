@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es" data-version="A">
+<head>
+<meta charset="utf-8">
+<title>Inscripción al Hackatón · Formulario A</title>
+<style>
+[hidden]{display:none !important}
+*{box-sizing:border-box}
+html{font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:16px}
+body{margin:0;background:#eef1f5;color:#1d2733;min-width:980px;line-height:1.45}
+.wrap{width:940px;margin:0 auto}
+.site{background:#12355b;color:#fff;padding:14px 0}
+.site .wrap{display:flex;justify-content:space-between;align-items:center}
+.site .ver{background:rgba(255,255,255,.18);border-radius:4px;padding:2px 10px;font-size:.9rem}
+main.wrap{padding:24px 0 60px}
+h1{font-size:1.6rem;margin:0 0 12px}
+h2{font-size:1.15rem;margin:0 0 10px}
+.panel{background:#fff;border:1px solid #cdd5df;border-radius:8px;padding:24px}
+.muted{color:#4a5a6c;font-size:.9rem}
+.steps li{margin-bottom:6px}
+
+.btn{font:inherit;font-weight:600;background:#12355b;color:#fff;border:2px solid #12355b;border-radius:6px;padding:9px 20px;cursor:pointer}
+.btn:hover{background:#0d2846}
+.btn.sec{background:#fff;color:#12355b;padding:6px 14px;font-weight:500}
+.btn.sec:hover{background:#e8eef5}
+.btn:focus-visible{outline:3px solid #f2a900;outline-offset:2px}
+
+.task{display:grid;grid-template-columns:1fr 290px;gap:0 24px;align-items:start}
+.taskbar{grid-column:1/-1;grid-row:1;display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px;background:#fff;border:1px solid #cdd5df;border-radius:8px;padding:10px 16px}
+.taskbar p{margin:0}
+#card{grid-column:2;grid-row:2;position:sticky;top:12px;padding:18px}
+#formhost{grid-column:1;grid-row:2}
+#card dl{margin:0}
+#card dt{font-size:.72rem;text-transform:uppercase;letter-spacing:.03em;color:#4a5a6c;margin-top:9px}
+#card dd{margin:0;font-weight:600}
+
+.res{border-collapse:collapse;margin:14px 0 22px;width:100%}
+.res caption{text-align:left;font-weight:600;padding-bottom:6px}
+.res th,.res td{border-bottom:1px solid #d6dde6;padding:7px 10px;text-align:left;vertical-align:top}
+.res th{width:230px;font-weight:600;color:#33475b}
+fieldset{border:1px solid #cdd5df;border-radius:6px;padding:12px 16px;margin:0 0 12px}
+legend{font-weight:600;padding:0 6px}
+.scale{display:flex;gap:26px}
+.scale label{text-align:center;cursor:pointer;line-height:1.2}
+.scale small{color:#4a5a6c}
+.err{color:#a11d1d;font-weight:600}
+#code{display:inline-block;font:600 1.25rem/1.3 ui-monospace,Consolas,monospace;background:#eef1f5;border:1px solid #b8c3d0;border-radius:6px;padding:8px 14px;user-select:all}
+#copied{margin-left:12px;color:#0b6a2b;font-weight:600}
+
+form.a{background:#f4f4f4;border:1px solid #b5b5b5;padding:16px 18px;font:12px Verdana,Tahoma,sans-serif;color:#333}
+form.a h2{font:bold 13px Verdana,sans-serif;margin:0 0 4px;color:#333;letter-spacing:.02em}
+form.a h3{font:bold 12px Verdana,sans-serif;margin:12px 0 6px;color:#333}
+form.a .a-note{margin:0 0 10px;font-size:11px;color:#666}
+form.a input[type=text],form.a select{display:block;width:100%;margin:0 0 6px;padding:4px 5px;font:12px Verdana,sans-serif;border:1px solid #999;background:#fff;color:#222}
+form.a .a-row{display:flex;gap:6px}
+form.a .a-row input{flex:1;min-width:0}
+form.a .a-date{margin:0 0 6px;display:flex;align-items:center;gap:6px}
+form.a .a-date span{color:#333;white-space:nowrap}
+form.a .a-date select{display:inline-block;width:auto;margin:0;flex:1}
+form.a .a-talla{margin:2px 0 8px;font-size:11px}
+form.a .a-talla input{margin:0 2px 0 8px;width:12px;height:12px;vertical-align:middle}
+form.a .a-menu-l{margin:4px 0 2px}
+form.a select[multiple]{height:auto}
+form.a .a-legal{height:66px;overflow-y:scroll;border:1px solid #999;background:#fff;padding:5px 7px;font-size:10px;line-height:1.3;color:#555;margin:8px 0 6px}
+form.a .a-legal p{margin:0 0 6px}
+form.a .a-terms{margin:0 0 10px}
+form.a .a-terms input{vertical-align:middle;margin:0 4px 0 0}
+form.a .a-submit{padding:5px 22px;font:12px Verdana,sans-serif;background:#dcdcdc;border:1px solid #808080;cursor:pointer}
+form.a .a-banner{background:#c62828;color:#fff;padding:8px 10px;margin:0 0 12px;font-weight:bold}
+form.a .bad{border:2px solid #c62828 !important}
+
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <strong>Hackatón · Facultad de Informática 2026</strong>
+    <span class="ver">Formulario · versión A</span>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+
+  <section id="intro" class="panel" aria-labelledby="t-intro">
+    <h1 id="t-intro" tabindex="-1">Tu misión: inscribir a Lucía en el Hackatón</h1>
+    <p>Vas a rellenar un formulario de inscripción con los datos de <strong>Lucía</strong>, una estudiante ficticia. Sus datos estarán en una <strong>tarjeta</strong> a la derecha durante toda la tarea.</p>
+    <ol class="steps">
+      <li>Pulsa <strong>Empezar</strong>. Se pondrá en marcha un cronómetro que no verás.</li>
+      <li>Inscribe a Lucía con exactamente los datos de la tarjeta.</li>
+      <li>Al terminar te mostraremos tu resultado y un código para entregar a tu profesor.</li>
+    </ol>
+    <p>Si te atascas puedes abandonar en cualquier momento: también es un resultado válido. No compares tu formulario con el de tus compañeros hasta que el profesor lo indique.</p>
+    <p><button class="btn" id="start" type="button">Empezar</button></p>
+  </section>
+
+  <section id="task" class="task" hidden>
+    <div class="taskbar">
+      <p id="running" tabindex="-1">Tarea en curso: inscribe a Lucía con los datos de la tarjeta.</p>
+      <div>
+        <button class="btn sec" id="abandon" type="button">Abandonar la tarea</button>
+        <span id="confirm" hidden>
+          ¿Seguro?
+          <button class="btn sec" id="abandon-yes" type="button">Sí, abandonar</button>
+          <button class="btn sec" id="abandon-no" type="button">Seguir intentándolo</button>
+        </span>
+      </div>
+    </div>
+
+    <aside id="card" class="panel" aria-labelledby="t-card">
+      <h2 id="t-card">Tarjeta de datos de Lucía</h2>
+      <dl>
+        <dt>Nombre</dt><dd>Lucía</dd>
+        <dt>Apellidos</dt><dd>Fernández Ortega</dd>
+        <dt>Correo electrónico</dt><dd>lucia.fernandez@example.com</dd>
+        <dt>Teléfono móvil</dt><dd>+34 612 345 678</dd>
+        <dt>Fecha de nacimiento</dt><dd>14 de marzo de 2005</dd>
+        <dt>Grado</dt><dd>Ingeniería Informática</dd>
+        <dt>Curso</dt><dd>2.º</dd>
+        <dt>Talla de camiseta</dt><dd>M</dd>
+        <dt>Menú</dt><dd>Vegetariano y sin frutos secos</dd>
+        <dt>Nombre del equipo</dt><dd>Los Bugs Cansados</dd>
+        <dt>Bases del hackatón</dt><dd>Aceptadas</dd>
+      </dl>
+    </aside>
+
+    <div id="formhost">
+      <form id="fa" class="a" novalidate autocomplete="off">
+        <div id="a-banner" class="a-banner" hidden>Error E-204: uno o más campos contienen valores no permitidos. Revise el formulario.</div>
+        <h2>FORMULARIO DE INSCRIPCIÓN</h2>
+        <p class="a-note">Los campos marcados con (*) son obligatorios.</p>
+
+        <div class="a-row">
+          <input id="a-nombre" type="text" placeholder="Nombre *">
+          <input id="a-apellidos" type="text" placeholder="Apellidos">
+        </div>
+        <input id="a-correo" type="text" placeholder="E-mail *">
+        <input id="a-correo2" type="text" placeholder="Repetir e-mail *" onpaste="return false" ondrop="return false">
+        <input id="a-movil" type="text" placeholder="Teléfono">
+
+        <div class="a-date">
+          <span>Fecha de nac.</span>
+          <select id="a-dia"></select>
+          <select id="a-mes"></select>
+          <select id="a-anio"></select>
+        </div>
+
+        <select id="a-grado"></select>
+        <input id="a-curso" type="text" placeholder="Curso">
+
+        <div class="a-talla">
+          Talla:
+          <input type="radio" name="a-talla" value="XS">XS
+          <input type="radio" name="a-talla" value="S">S
+          <input type="radio" name="a-talla" value="M">M
+          <input type="radio" name="a-talla" value="L">L
+          <input type="radio" name="a-talla" value="XL">XL
+        </div>
+
+        <div class="a-menu-l">Menú:</div>
+        <select id="a-menu" multiple size="5"></select>
+
+        <h3>Datos del equipo</h3>
+        <input id="a-equipo" type="text" placeholder="Nombre *">
+
+        <div id="a-legal" class="a-legal">
+          <p>BASES DEL HACKATÓN. 1. Objeto. Las presentes bases regulan la participación en el hackatón organizado por la Facultad de Informática, en adelante «la Organización». 2. Participantes. Podrá participar cualquier estudiante matriculado en la Facultad durante el curso en vigor. 3. Equipos. Los equipos estarán formados por entre uno y cuatro participantes, sin que ningún participante pueda formar parte de más de un equipo.</p>
+          <p>4. Inscripción. La inscripción se realizará únicamente mediante este formulario. La Organización podrá rechazar inscripciones incompletas o con datos no verificables. 5. Datos personales. Los datos facilitados serán tratados con la única finalidad de gestionar la participación en el evento, conforme a la normativa vigente en materia de protección de datos.</p>
+          <p>6. Propiedad intelectual. Los proyectos desarrollados durante el evento serán propiedad de sus autores. Los participantes autorizan a la Organización a difundir su nombre y una descripción del proyecto en los canales de la Facultad. 7. Conducta. Se espera un comportamiento respetuoso con el resto de participantes, con el personal y con las instalaciones.</p>
+          <p>8. Material. Cada equipo deberá traer su propio equipo informático. La Organización proporcionará conexión a la red, mesas y avituallamiento. 9. Duración. El hackatón comenzará a las 10:00 del primer día y finalizará a las 18:00 del segundo día. 10. Jurado. El jurado estará formado por personal docente de la Facultad y representantes de las empresas colaboradoras.</p>
+          <p>11. Premios. Se concederán tres premios, cuya cuantía se comunicará el primer día. Los premios no serán acumulables. 12. Cancelación. La Organización se reserva el derecho a modificar o cancelar el evento por causas de fuerza mayor. 13. Aceptación. La participación implica la aceptación íntegra de estas bases. Fin del documento.</p>
+        </div>
+        <div class="a-terms"><input type="checkbox" id="a-terms" disabled> He leído y acepto las bases (*)</div>
+
+        <button type="submit" class="a-submit">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="result" class="panel" aria-labelledby="t-result" hidden>
+    <h1 id="t-result" tabindex="-1">Tarea terminada</h1>
+    <p id="res-msg"></p>
+    <table class="res">
+      <caption>Tu resultado</caption>
+      <tbody id="res-body"></tbody>
+    </table>
+
+    <form id="sat" novalidate>
+      <fieldset>
+        <legend>¿Qué tal ha sido la experiencia de rellenar este formulario?</legend>
+        <div class="scale">
+          <label><input type="radio" name="sat" value="1"> 1<br><small>Muy mala</small></label>
+          <label><input type="radio" name="sat" value="2"> 2<br><small>Mala</small></label>
+          <label><input type="radio" name="sat" value="3"> 3<br><small>Regular</small></label>
+          <label><input type="radio" name="sat" value="4"> 4<br><small>Buena</small></label>
+          <label><input type="radio" name="sat" value="5"> 5<br><small>Muy buena</small></label>
+        </div>
+      </fieldset>
+      <p id="sat-err" class="err" role="alert" hidden>Elige una valoración del 1 al 5.</p>
+      <p><button class="btn" type="submit">Ver mi código</button></p>
+    </form>
+
+    <div id="codebox" hidden>
+      <h2>Tu código</h2>
+      <p>Entrégalo tal cual en el formulario compartido que indique tu profesor:</p>
+      <p><code id="code"></code></p>
+      <p>
+        <button class="btn" id="copy" type="button">Copiar código</button>
+        <span id="copied" role="status"></span>
+      </p>
+      <p class="muted">Orden de los campos: versión, estado, segundos, envíos fallidos, campos incorrectos, satisfacción.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var EXPECTED = {
+    nombre: 'Lucía',
+    apellidos: 'Fernández Ortega',
+    correo: 'lucia.fernandez@example.com',
+    movil: '612345678',
+    nacimiento: '2005-03-14',
+    grado: 'Ingeniería Informática',
+    curso: '2',
+    talla: 'M',
+    menu: ['sin frutos secos', 'vegetariano'],
+    equipo: 'Los Bugs Cansados',
+    terminos: true
+  };
+  var LABELS = {
+    nombre: 'Nombre', apellidos: 'Apellidos', correo: 'Correo electrónico',
+    movil: 'Teléfono móvil', nacimiento: 'Fecha de nacimiento', grado: 'Grado',
+    curso: 'Curso', talla: 'Talla de camiseta', menu: 'Menú',
+    equipo: 'Nombre del equipo', terminos: 'Aceptación de las bases'
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function norm(s) {
+    return String(s == null ? '' : s).normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .toLowerCase().replace(/\s+/g, ' ').trim();
+  }
+  function same(key, val) {
+    var e = EXPECTED[key];
+    switch (key) {
+      case 'movil':
+        var d = String(val || '').replace(/\D/g, '');
+        if (d.length === 11 && d.indexOf('34') === 0) d = d.slice(2);
+        return d === e;
+      case 'menu':
+        var v = (val || []).map(norm).sort();
+        return JSON.stringify(v) === JSON.stringify(e);
+      case 'terminos': return val === true;
+      case 'curso': return String(val == null ? '' : val).replace(/\D/g, '') === e;
+      case 'nacimiento': return val === e;
+      default: return norm(val) === norm(e);
+    }
+  }
+
+  var version = document.documentElement.getAttribute('data-version');
+  var H = window.H = { version: version, attempts: 0, t0: null, finished: false };
+
+  function show(id) {
+    ['intro', 'task', 'result'].forEach(function (s) { $(s).hidden = (s !== id); });
+  }
+
+  H.fail = function () { if (!H.finished) H.attempts++; };
+
+  function finishWith(estado, wrong) {
+    if (H.finished) return;
+    H.finished = true;
+    var secs = Math.round((performance.now() - H.t0) / 1000);
+    H.result = {
+      version: version, estado: estado, secs: secs, attempts: H.attempts,
+      wrongCount: estado === 'ABANDONO' ? '-' : wrong.length, wrong: wrong
+    };
+    renderResult(H.result);
+  }
+
+  H.finish = function (values) {
+    var wrong = Object.keys(EXPECTED).filter(function (k) { return !same(k, values[k]); });
+    finishWith(wrong.length ? 'INCORRECTA' : 'OK', wrong);
+  };
+  H.abandon = function () { finishWith('ABANDONO', []); };
+
+  function mmss(s) { return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2) + ' (' + s + ' s)'; }
+
+  function renderResult(r) {
+    var msg = {
+      OK: 'Completada correctamente: todos los datos coinciden con la tarjeta.',
+      INCORRECTA: 'Has enviado el formulario, pero algunos datos no coinciden con la tarjeta de Lucía.',
+      ABANDONO: 'Has abandonado la tarea.'
+    }[r.estado];
+    $('res-msg').textContent = msg;
+    var rows = [
+      ['Versión', r.version],
+      ['Tiempo', mmss(r.secs)],
+      ['Envíos fallidos (el formulario rechazó tus datos)', String(r.attempts)]
+    ];
+    if (r.estado !== 'ABANDONO') {
+      rows.push(['Campos con datos distintos a la tarjeta',
+        r.wrong.length ? r.wrong.map(function (k) { return LABELS[k]; }).join(', ') : 'Ninguno']);
+    }
+    var body = $('res-body');
+    body.innerHTML = '';
+    rows.forEach(function (row) {
+      var tr = document.createElement('tr');
+      var th = document.createElement('th'); th.scope = 'row'; th.textContent = row[0];
+      var td = document.createElement('td'); td.textContent = row[1];
+      tr.appendChild(th); tr.appendChild(td); body.appendChild(tr);
+    });
+    show('result');
+    $('t-result').focus();
+  }
+
+  $('start').addEventListener('click', function () {
+    H.t0 = performance.now();
+    show('task');
+    $('running').focus();
+  });
+
+  $('abandon').addEventListener('click', function () {
+    $('abandon').hidden = true; $('confirm').hidden = false; $('abandon-no').focus();
+  });
+  $('abandon-no').addEventListener('click', function () {
+    $('confirm').hidden = true; $('abandon').hidden = false; $('abandon').focus();
+  });
+  $('abandon-yes').addEventListener('click', function () { H.abandon(); });
+
+  $('sat').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var chosen = document.querySelector('input[name="sat"]:checked');
+    if (!chosen) { $('sat-err').hidden = false; return; }
+    $('sat-err').hidden = true;
+    var r = H.result;
+    var code = [r.version, r.estado, r.secs, r.attempts, r.wrongCount, chosen.value].join(',');
+    $('code').textContent = code;
+    $('codebox').hidden = false;
+    $('copied').textContent = '';
+  });
+
+  $('copy').addEventListener('click', function () {
+    var text = $('code').textContent;
+    function ok() { $('copied').textContent = 'Copiado'; }
+    function fallback() {
+      var range = document.createRange(); range.selectNodeContents($('code'));
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      try { document.execCommand('copy'); ok(); } catch (err) { $('copied').textContent = 'Selecciona el código y cópialo con Ctrl+C'; }
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(ok, fallback);
+    } else { fallback(); }
+  });
+})();
+
+</script>
+<script>
+(function () {
+  'use strict';
+  function $(id) { return document.getElementById(id); }
+  function opt(sel, value, text) {
+    var o = document.createElement('option'); o.value = value; o.textContent = text == null ? value : text; sel.appendChild(o);
+  }
+
+  // Fecha: día, mes y año (años en orden ascendente desde 1920)
+  var dia = $('a-dia'), mes = $('a-mes'), anio = $('a-anio');
+  opt(dia, '', 'Día'); for (var d = 1; d <= 31; d++) opt(dia, String(d));
+  opt(mes, '', 'Mes');
+  ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+    .forEach(function (m, i) { opt(mes, String(i + 1), m); });
+  opt(anio, '', 'Año'); for (var y = 1920; y <= 2012; y++) opt(anio, String(y));
+
+  // Grado: lista larga, sin ordenar
+  var grado = $('a-grado');
+  opt(grado, '', 'Seleccione...');
+  [
+    'Administración y Dirección de Empresas', 'Ingeniería del Software', 'Comunicación Audiovisual',
+    'Ingeniería Informática (plan a extinguir)', 'Ingeniería de Computadores', 'Derecho', 'Ciencia de Datos',
+    'Ingeniería de Sistemas de Información', 'Educación Primaria', 'Ingeniería Informática', 'Psicología',
+    'Enfermería', 'Matemáticas', 'Ingeniería Electrónica Industrial', 'Ingeniería de Telecomunicación',
+    'Doble Grado en Informática y ADE', 'Física', 'Periodismo', 'Ingeniería Informática y Matemáticas (doble grado)',
+    'Diseño de Productos Interactivos', 'Educación Infantil', 'Ingeniería Biomédica', 'Filosofía',
+    'Inteligencia Artificial', 'Ingeniería Industrial', 'Turismo', 'Arquitectura', 'Marketing', 'Ciberseguridad', 'Otro'
+  ].forEach(function (g) { opt(grado, g); });
+
+  // Menú: selección múltiple sin instrucciones
+  var menu = $('a-menu');
+  ['Sin restricciones', 'Vegetariano', 'Vegano', 'Sin gluten', 'Sin lactosa', 'Sin frutos secos', 'Halal']
+    .forEach(function (m) { opt(menu, m); });
+
+  // Casilla de bases: solo se activa al llegar al final del texto
+  var legal = $('a-legal'), terms = $('a-terms');
+  legal.addEventListener('scroll', function () {
+    if (legal.scrollTop + legal.clientHeight >= legal.scrollHeight - 3) terms.disabled = false;
+  });
+
+  $('fa').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var bad = [];
+    function mark(el, cond) { el.classList.remove('bad'); if (!cond) { el.classList.add('bad'); bad.push(el); } }
+    var letters = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]+$/;
+
+    mark($('a-nombre'), letters.test($('a-nombre').value.trim()));
+    mark($('a-apellidos'), letters.test($('a-apellidos').value.trim()));
+    mark($('a-correo'), /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('a-correo').value.trim()));
+    mark($('a-correo2'), $('a-correo2').value.trim() !== '' && $('a-correo2').value.trim() === $('a-correo').value.trim());
+    mark($('a-movil'), /^\d{9}$/.test($('a-movil').value));
+
+    var dd = +dia.value, mm = +mes.value, yy = +anio.value, dateOk = false;
+    if (dd && mm && yy) {
+      var dt = new Date(yy, mm - 1, dd);
+      dateOk = dt.getFullYear() === yy && dt.getMonth() === mm - 1 && dt.getDate() === dd;
+    }
+    [dia, mes, anio].forEach(function (s) { mark(s, dateOk); });
+
+    mark(grado, grado.value !== '');
+    mark($('a-curso'), /^[1-4]$/.test($('a-curso').value.trim()));
+    var talla = document.querySelector('input[name="a-talla"]:checked');
+    if (!talla) bad.push($('a-nombre')); // sin marca visible
+    mark(menu, menu.selectedOptions.length > 0);
+    mark($('a-equipo'), $('a-equipo').value.trim() !== '');
+    if (!terms.checked) bad.push(terms);
+
+    if (bad.length) {
+      H.fail();
+      $('a-banner').hidden = false;
+      window.scrollTo(0, 0);
+      return;
+    }
+    $('a-banner').hidden = true;
+    var pad = function (n) { return ('0' + n).slice(-2); };
+    H.finish({
+      nombre: $('a-nombre').value,
+      apellidos: $('a-apellidos').value,
+      correo: $('a-correo').value,
+      movil: $('a-movil').value,
+      nacimiento: yy + '-' + pad(mm) + '-' + pad(dd),
+      grado: grado.value,
+      curso: $('a-curso').value,
+      talla: talla.value,
+      menu: Array.prototype.map.call(menu.selectedOptions, function (o) { return o.value; }),
+      equipo: $('a-equipo').value,
+      terminos: terms.checked
+    });
+  });
+})();
+
+</script>
+</body>
+</html>

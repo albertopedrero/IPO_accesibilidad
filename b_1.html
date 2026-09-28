@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es" data-version="B">
+<head>
+<meta charset="utf-8">
+<title>Inscripción al Hackatón · Formulario B</title>
+<style>
+[hidden]{display:none !important}
+*{box-sizing:border-box}
+html{font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:16px}
+body{margin:0;background:#eef1f5;color:#1d2733;min-width:980px;line-height:1.45}
+.wrap{width:940px;margin:0 auto}
+.site{background:#12355b;color:#fff;padding:14px 0}
+.site .wrap{display:flex;justify-content:space-between;align-items:center}
+.site .ver{background:rgba(255,255,255,.18);border-radius:4px;padding:2px 10px;font-size:.9rem}
+main.wrap{padding:24px 0 60px}
+h1{font-size:1.6rem;margin:0 0 12px}
+h2{font-size:1.15rem;margin:0 0 10px}
+.panel{background:#fff;border:1px solid #cdd5df;border-radius:8px;padding:24px}
+.muted{color:#4a5a6c;font-size:.9rem}
+.steps li{margin-bottom:6px}
+
+.btn{font:inherit;font-weight:600;background:#12355b;color:#fff;border:2px solid #12355b;border-radius:6px;padding:9px 20px;cursor:pointer}
+.btn:hover{background:#0d2846}
+.btn.sec{background:#fff;color:#12355b;padding:6px 14px;font-weight:500}
+.btn.sec:hover{background:#e8eef5}
+.btn:focus-visible{outline:3px solid #f2a900;outline-offset:2px}
+
+.task{display:grid;grid-template-columns:1fr 290px;gap:0 24px;align-items:start}
+.taskbar{grid-column:1/-1;grid-row:1;display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px;background:#fff;border:1px solid #cdd5df;border-radius:8px;padding:10px 16px}
+.taskbar p{margin:0}
+#card{grid-column:2;grid-row:2;position:sticky;top:12px;padding:18px}
+#formhost{grid-column:1;grid-row:2}
+#card dl{margin:0}
+#card dt{font-size:.72rem;text-transform:uppercase;letter-spacing:.03em;color:#4a5a6c;margin-top:9px}
+#card dd{margin:0;font-weight:600}
+
+.res{border-collapse:collapse;margin:14px 0 22px;width:100%}
+.res caption{text-align:left;font-weight:600;padding-bottom:6px}
+.res th,.res td{border-bottom:1px solid #d6dde6;padding:7px 10px;text-align:left;vertical-align:top}
+.res th{width:230px;font-weight:600;color:#33475b}
+fieldset{border:1px solid #cdd5df;border-radius:6px;padding:12px 16px;margin:0 0 12px}
+legend{font-weight:600;padding:0 6px}
+.scale{display:flex;gap:26px}
+.scale label{text-align:center;cursor:pointer;line-height:1.2}
+.scale small{color:#4a5a6c}
+.err{color:#a11d1d;font-weight:600}
+#code{display:inline-block;font:600 1.25rem/1.3 ui-monospace,Consolas,monospace;background:#eef1f5;border:1px solid #b8c3d0;border-radius:6px;padding:8px 14px;user-select:all}
+#copied{margin-left:12px;color:#0b6a2b;font-weight:600}
+
+form.b{background:#fff;border:1px solid #cdd5df;border-radius:8px;padding:24px 28px;font-size:15px;color:#1d2733}
+form.b h2{font-size:1.25rem;margin:0 0 4px}
+form.b .b-intro{margin:0 0 18px;color:#33475b}
+form.b .b-grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+form.b .b-field{margin-bottom:16px}
+form.b label,form.b .b-lbl{display:block;font-weight:600;margin-bottom:5px}
+form.b input[type=text],form.b input[type=email],form.b input[type=tel],form.b input[type=date]{width:100%;height:42px;padding:0 12px;font:inherit;border:1px solid #8a97a6;border-radius:6px;background:#fff;color:#1d2733}
+form.b input[type=date]{width:220px}
+form.b .b-hint{margin:4px 0 0;font-size:13px;color:#9a9a9a}
+form.b .b-err{margin:5px 0 0;font-size:14px;font-weight:600;color:#c62828}
+form.b .b-err::before{content:"\26A0\00a0"}
+
+/* Autocompletado de grado */
+form.b .b-combo{position:relative}
+form.b .b-list{position:absolute;left:0;right:0;top:44px;z-index:5;background:#fff;border:1px solid #8a97a6;border-radius:6px;max-height:210px;overflow:auto;box-shadow:0 6px 18px rgba(18,53,91,.18)}
+form.b .b-opt{padding:9px 12px;cursor:pointer}
+form.b .b-opt:hover{background:#e3edf8}
+form.b .b-empty{padding:9px 12px;color:#9a9a9a}
+
+/* Pastillas de curso y talla: radios reales ocultos visualmente */
+form.b .b-pills{display:flex;gap:8px;flex-wrap:wrap}
+form.b .b-pills label{position:relative;margin:0;font-weight:500}
+form.b .b-pills input{position:absolute;opacity:0;width:1px;height:1px}
+form.b .b-pills span{display:inline-block;min-width:52px;text-align:center;padding:8px 14px;border:1px solid #8a97a6;border-radius:999px;cursor:pointer;background:#fff}
+form.b .b-pills span:hover{background:#e3edf8}
+form.b .b-pills input:checked+span{background:#12355b;border-color:#12355b;color:#fff}
+
+/* Menú */
+form.b .b-checks{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px}
+form.b .b-checks label{font-weight:400;margin:0;padding:5px 0;cursor:pointer}
+form.b .b-checks input{width:18px;height:18px;vertical-align:-3px;margin:0 6px 0 0}
+
+/* Casilla de bases (elemento personalizado) */
+form.b .b-terms{display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600}
+form.b .b-chk{width:24px;height:24px;border:2px solid #4a5a6c;border-radius:5px;background:#fff;flex:none;display:flex;align-items:center;justify-content:center}
+form.b .b-chk.on{background:#12355b;border-color:#12355b}
+form.b .b-chk.on::after{content:"\2713";color:#fff;font-size:16px;line-height:1}
+form.b .b-bases{margin-top:6px;font-size:14px;color:#33475b}
+form.b .b-bases summary{cursor:pointer;display:inline-block}
+
+form.b .b-submit{font:inherit;font-weight:700;height:46px;padding:0 28px;background:#12355b;color:#fff;border:0;border-radius:8px;cursor:pointer}
+form.b .b-submit:hover{background:#0d2846}
+
+/* Sin indicador de foco visible en todo el formulario */
+form.b *:focus{outline:none}
+
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <strong>Hackatón · Facultad de Informática 2026</strong>
+    <span class="ver">Formulario · versión B</span>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+
+  <section id="intro" class="panel" aria-labelledby="t-intro">
+    <h1 id="t-intro" tabindex="-1">Tu misión: inscribir a Lucía en el Hackatón</h1>
+    <p>Vas a rellenar un formulario de inscripción con los datos de <strong>Lucía</strong>, una estudiante ficticia. Sus datos estarán en una <strong>tarjeta</strong> a la derecha durante toda la tarea.</p>
+    <ol class="steps">
+      <li>Pulsa <strong>Empezar</strong>. Se pondrá en marcha un cronómetro que no verás.</li>
+      <li>Inscribe a Lucía con exactamente los datos de la tarjeta.</li>
+      <li>Al terminar te mostraremos tu resultado y un código para entregar a tu profesor.</li>
+    </ol>
+    <p>Si te atascas puedes abandonar en cualquier momento: también es un resultado válido. No compares tu formulario con el de tus compañeros hasta que el profesor lo indique.</p>
+    <p><button class="btn" id="start" type="button">Empezar</button></p>
+  </section>
+
+  <section id="task" class="task" hidden>
+    <div class="taskbar">
+      <p id="running" tabindex="-1">Tarea en curso: inscribe a Lucía con los datos de la tarjeta.</p>
+      <div>
+        <button class="btn sec" id="abandon" type="button">Abandonar la tarea</button>
+        <span id="confirm" hidden>
+          ¿Seguro?
+          <button class="btn sec" id="abandon-yes" type="button">Sí, abandonar</button>
+          <button class="btn sec" id="abandon-no" type="button">Seguir intentándolo</button>
+        </span>
+      </div>
+    </div>
+
+    <aside id="card" class="panel" aria-labelledby="t-card">
+      <h2 id="t-card">Tarjeta de datos de Lucía</h2>
+      <dl>
+        <dt>Nombre</dt><dd>Lucía</dd>
+        <dt>Apellidos</dt><dd>Fernández Ortega</dd>
+        <dt>Correo electrónico</dt><dd>lucia.fernandez@example.com</dd>
+        <dt>Teléfono móvil</dt><dd>+34 612 345 678</dd>
+        <dt>Fecha de nacimiento</dt><dd>14 de marzo de 2005</dd>
+        <dt>Grado</dt><dd>Ingeniería Informática</dd>
+        <dt>Curso</dt><dd>2.º</dd>
+        <dt>Talla de camiseta</dt><dd>M</dd>
+        <dt>Menú</dt><dd>Vegetariano y sin frutos secos</dd>
+        <dt>Nombre del equipo</dt><dd>Los Bugs Cansados</dd>
+        <dt>Bases del hackatón</dt><dd>Aceptadas</dd>
+      </dl>
+    </aside>
+
+    <div id="formhost">
+      <form id="fb" class="b" novalidate>
+        <h2>Inscripción al Hackatón</h2>
+        <p class="b-intro">Rellena los datos del participante. Todos los campos son obligatorios.</p>
+
+        <div class="b-grid2">
+          <div class="b-field">
+            <label for="b-nombre">Nombre</label>
+            <input id="b-nombre" type="text" autocomplete="given-name">
+            <p class="b-err" id="b-nombre-e" hidden></p>
+          </div>
+          <div class="b-field">
+            <label for="b-apellidos">Apellidos</label>
+            <input id="b-apellidos" type="text" autocomplete="family-name">
+            <p class="b-err" id="b-apellidos-e" hidden></p>
+          </div>
+        </div>
+
+        <div class="b-field">
+          <label for="b-correo">Correo electrónico</label>
+          <input id="b-correo" type="email" autocomplete="email">
+          <p class="b-hint">Te enviaremos la confirmación a esta dirección.</p>
+          <p class="b-err" id="b-correo-e" hidden></p>
+        </div>
+
+        <div class="b-field">
+          <label for="b-movil">Teléfono móvil</label>
+          <input id="b-movil" type="tel" autocomplete="tel">
+          <p class="b-hint">Con o sin prefijo, con o sin espacios.</p>
+          <p class="b-err" id="b-movil-e" hidden></p>
+        </div>
+
+        <div class="b-field">
+          <label for="b-nac">Fecha de nacimiento</label>
+          <input id="b-nac" type="date" autocomplete="bday">
+          <p class="b-hint">Día, mes y año.</p>
+          <p class="b-err" id="b-nac-e" hidden></p>
+        </div>
+
+        <div class="b-field">
+          <label for="b-grado">Grado</label>
+          <div class="b-combo">
+            <input id="b-grado" type="text" autocomplete="off" placeholder="Escribe para buscar…">
+            <div id="b-list" class="b-list" hidden></div>
+          </div>
+          <p class="b-err" id="b-grado-e" hidden></p>
+        </div>
+
+        <div class="b-field">
+          <span class="b-lbl">Curso</span>
+          <div class="b-pills" id="b-curso">
+            <label><input type="radio" name="b-curso" value="1"><span>1.º</span></label>
+            <label><input type="radio" name="b-curso" value="2"><span>2.º</span></label>
+            <label><input type="radio" name="b-curso" value="3"><span>3.º</span></label>
+            <label><input type="radio" name="b-curso" value="4"><span>4.º</span></label>
+          </div>
+          <p class="b-err" id="b-curso-e" hidden></p>
+        </div>
+
+        <div class="b-field">
+          <span class="b-lbl">Talla de camiseta</span>
+          <div class="b-pills" id="b-talla">
+            <label><input type="radio" name="b-talla" value="XS"><span>XS</span></label>
+            <label><input type="radio" name="b-talla" value="S"><span>S</span></label>
+            <label><input type="radio" name="b-talla" value="M"><span>M</span></label>
+            <label><input type="radio" name="b-talla" value="L"><span>L</span></label>
+            <label><input type="radio" name="b-talla" value="XL"><span>XL</span></label>
+          </div>
+          <p class="b-err" id="b-talla-e" hidden></p>
+        </div>
+
+        <div class="b-field">
+          <span class="b-lbl">Menú (marca todo lo que necesites)</span>
+          <div class="b-checks" id="b-menu">
+            <label><input type="checkbox" name="b-menu" value="Sin restricciones"> Sin restricciones</label>
+            <label><input type="checkbox" name="b-menu" value="Vegetariano"> Vegetariano</label>
+            <label><input type="checkbox" name="b-menu" value="Vegano"> Vegano</label>
+            <label><input type="checkbox" name="b-menu" value="Sin gluten"> Sin gluten</label>
+            <label><input type="checkbox" name="b-menu" value="Sin lactosa"> Sin lactosa</label>
+            <label><input type="checkbox" name="b-menu" value="Sin frutos secos"> Sin frutos secos</label>
+            <label><input type="checkbox" name="b-menu" value="Halal"> Halal</label>
+          </div>
+          <p class="b-err" id="b-menu-e" hidden></p>
+        </div>
+
+        <div class="b-field">
+          <label for="b-equipo">Nombre del equipo</label>
+          <input id="b-equipo" type="text">
+          <p class="b-err" id="b-equipo-e" hidden></p>
+        </div>
+
+        <div class="b-field">
+          <div class="b-terms" id="b-terms-row">
+            <div class="b-chk" id="b-chk"></div>
+            <span id="b-chk-t">Acepto las bases del hackatón</span>
+          </div>
+          <details class="b-bases">
+            <summary>Ver las bases</summary>
+            <p>Podrá participar cualquier estudiante de la Facultad. Los equipos tendrán entre uno y cuatro miembros. Los datos se usarán solo para gestionar el evento. Los proyectos son propiedad de sus autores. Se espera un trato respetuoso hacia el resto de participantes y el personal.</p>
+          </details>
+          <p class="b-err" id="b-terms-e" hidden></p>
+        </div>
+
+        <button type="submit" class="b-submit">Enviar inscripción</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="result" class="panel" aria-labelledby="t-result" hidden>
+    <h1 id="t-result" tabindex="-1">Tarea terminada</h1>
+    <p id="res-msg"></p>
+    <table class="res">
+      <caption>Tu resultado</caption>
+      <tbody id="res-body"></tbody>
+    </table>
+
+    <form id="sat" novalidate>
+      <fieldset>
+        <legend>¿Qué tal ha sido la experiencia de rellenar este formulario?</legend>
+        <div class="scale">
+          <label><input type="radio" name="sat" value="1"> 1<br><small>Muy mala</small></label>
+          <label><input type="radio" name="sat" value="2"> 2<br><small>Mala</small></label>
+          <label><input type="radio" name="sat" value="3"> 3<br><small>Regular</small></label>
+          <label><input type="radio" name="sat" value="4"> 4<br><small>Buena</small></label>
+          <label><input type="radio" name="sat" value="5"> 5<br><small>Muy buena</small></label>
+        </div>
+      </fieldset>
+      <p id="sat-err" class="err" role="alert" hidden>Elige una valoración del 1 al 5.</p>
+      <p><button class="btn" type="submit">Ver mi código</button></p>
+    </form>
+
+    <div id="codebox" hidden>
+      <h2>Tu código</h2>
+      <p>Entrégalo tal cual en el formulario compartido que indique tu profesor:</p>
+      <p><code id="code"></code></p>
+      <p>
+        <button class="btn" id="copy" type="button">Copiar código</button>
+        <span id="copied" role="status"></span>
+      </p>
+      <p class="muted">Orden de los campos: versión, estado, segundos, envíos fallidos, campos incorrectos, satisfacción.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var EXPECTED = {
+    nombre: 'Lucía',
+    apellidos: 'Fernández Ortega',
+    correo: 'lucia.fernandez@example.com',
+    movil: '612345678',
+    nacimiento: '2005-03-14',
+    grado: 'Ingeniería Informática',
+    curso: '2',
+    talla: 'M',
+    menu: ['sin frutos secos', 'vegetariano'],
+    equipo: 'Los Bugs Cansados',
+    terminos: true
+  };
+  var LABELS = {
+    nombre: 'Nombre', apellidos: 'Apellidos', correo: 'Correo electrónico',
+    movil: 'Teléfono móvil', nacimiento: 'Fecha de nacimiento', grado: 'Grado',
+    curso: 'Curso', talla: 'Talla de camiseta', menu: 'Menú',
+    equipo: 'Nombre del equipo', terminos: 'Aceptación de las bases'
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function norm(s) {
+    return String(s == null ? '' : s).normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .toLowerCase().replace(/\s+/g, ' ').trim();
+  }
+  function same(key, val) {
+    var e = EXPECTED[key];
+    switch (key) {
+      case 'movil':
+        var d = String(val || '').replace(/\D/g, '');
+        if (d.length === 11 && d.indexOf('34') === 0) d = d.slice(2);
+        return d === e;
+      case 'menu':
+        var v = (val || []).map(norm).sort();
+        return JSON.stringify(v) === JSON.stringify(e);
+      case 'terminos': return val === true;
+      case 'curso': return String(val == null ? '' : val).replace(/\D/g, '') === e;
+      case 'nacimiento': return val === e;
+      default: return norm(val) === norm(e);
+    }
+  }
+
+  var version = document.documentElement.getAttribute('data-version');
+  var H = window.H = { version: version, attempts: 0, t0: null, finished: false };
+
+  function show(id) {
+    ['intro', 'task', 'result'].forEach(function (s) { $(s).hidden = (s !== id); });
+  }
+
+  H.fail = function () { if (!H.finished) H.attempts++; };
+
+  function finishWith(estado, wrong) {
+    if (H.finished) return;
+    H.finished = true;
+    var secs = Math.round((performance.now() - H.t0) / 1000);
+    H.result = {
+      version: version, estado: estado, secs: secs, attempts: H.attempts,
+      wrongCount: estado === 'ABANDONO' ? '-' : wrong.length, wrong: wrong
+    };
+    renderResult(H.result);
+  }
+
+  H.finish = function (values) {
+    var wrong = Object.keys(EXPECTED).filter(function (k) { return !same(k, values[k]); });
+    finishWith(wrong.length ? 'INCORRECTA' : 'OK', wrong);
+  };
+  H.abandon = function () { finishWith('ABANDONO', []); };
+
+  function mmss(s) { return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2) + ' (' + s + ' s)'; }
+
+  function renderResult(r) {
+    var msg = {
+      OK: 'Completada correctamente: todos los datos coinciden con la tarjeta.',
+      INCORRECTA: 'Has enviado el formulario, pero algunos datos no coinciden con la tarjeta de Lucía.',
+      ABANDONO: 'Has abandonado la tarea.'
+    }[r.estado];
+    $('res-msg').textContent = msg;
+    var rows = [
+      ['Versión', r.version],
+      ['Tiempo', mmss(r.secs)],
+      ['Envíos fallidos (el formulario rechazó tus datos)', String(r.attempts)]
+    ];
+    if (r.estado !== 'ABANDONO') {
+      rows.push(['Campos con datos distintos a la tarjeta',
+        r.wrong.length ? r.wrong.map(function (k) { return LABELS[k]; }).join(', ') : 'Ninguno']);
+    }
+    var body = $('res-body');
+    body.innerHTML = '';
+    rows.forEach(function (row) {
+      var tr = document.createElement('tr');
+      var th = document.createElement('th'); th.scope = 'row'; th.textContent = row[0];
+      var td = document.createElement('td'); td.textContent = row[1];
+      tr.appendChild(th); tr.appendChild(td); body.appendChild(tr);
+    });
+    show('result');
+    $('t-result').focus();
+  }
+
+  $('start').addEventListener('click', function () {
+    H.t0 = performance.now();
+    show('task');
+    $('running').focus();
+  });
+
+  $('abandon').addEventListener('click', function () {
+    $('abandon').hidden = true; $('confirm').hidden = false; $('abandon-no').focus();
+  });
+  $('abandon-no').addEventListener('click', function () {
+    $('confirm').hidden = true; $('abandon').hidden = false; $('abandon').focus();
+  });
+  $('abandon-yes').addEventListener('click', function () { H.abandon(); });
+
+  $('sat').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var chosen = document.querySelector('input[name="sat"]:checked');
+    if (!chosen) { $('sat-err').hidden = false; return; }
+    $('sat-err').hidden = true;
+    var r = H.result;
+    var code = [r.version, r.estado, r.secs, r.attempts, r.wrongCount, chosen.value].join(',');
+    $('code').textContent = code;
+    $('codebox').hidden = false;
+    $('copied').textContent = '';
+  });
+
+  $('copy').addEventListener('click', function () {
+    var text = $('code').textContent;
+    function ok() { $('copied').textContent = 'Copiado'; }
+    function fallback() {
+      var range = document.createRange(); range.selectNodeContents($('code'));
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      try { document.execCommand('copy'); ok(); } catch (err) { $('copied').textContent = 'Selecciona el código y cópialo con Ctrl+C'; }
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(ok, fallback);
+    } else { fallback(); }
+  });
+})();
+
+</script>
+<script>
+(function () {
+  'use strict';
+  function $(id) { return document.getElementById(id); }
+  function norm(s) {
+    return String(s == null ? '' : s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+  }
+
+  var GRADOS = [
+    'Administración y Dirección de Empresas', 'Ingeniería del Software', 'Comunicación Audiovisual',
+    'Ingeniería Informática (plan a extinguir)', 'Ingeniería de Computadores', 'Derecho', 'Ciencia de Datos',
+    'Ingeniería de Sistemas de Información', 'Educación Primaria', 'Ingeniería Informática', 'Psicología',
+    'Enfermería', 'Matemáticas', 'Ingeniería Electrónica Industrial', 'Ingeniería de Telecomunicación',
+    'Doble Grado en Informática y ADE', 'Física', 'Periodismo', 'Ingeniería Informática y Matemáticas (doble grado)',
+    'Diseño de Productos Interactivos', 'Educación Infantil', 'Ingeniería Biomédica', 'Filosofía',
+    'Inteligencia Artificial', 'Ingeniería Industrial', 'Turismo', 'Arquitectura', 'Marketing', 'Ciberseguridad', 'Otro'
+  ].sort(function (a, b) { return a.localeCompare(b, 'es'); });
+
+  // Autocompletado de grado: solo se puede elegir con el ratón
+  var input = $('b-grado'), list = $('b-list'), chosen = '';
+  function renderList() {
+    var q = norm(input.value);
+    var items = GRADOS.filter(function (g) { return q === '' || norm(g).indexOf(q) !== -1; });
+    list.innerHTML = '';
+    if (!items.length) {
+      var none = document.createElement('div'); none.className = 'b-empty'; none.textContent = 'Sin resultados'; list.appendChild(none);
+    }
+    items.forEach(function (g) {
+      var d = document.createElement('div'); d.className = 'b-opt'; d.textContent = g;
+      d.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        chosen = g; input.value = g; list.hidden = true; clearErr('b-grado');
+      });
+      list.appendChild(d);
+    });
+    list.hidden = false;
+  }
+  input.addEventListener('input', function () { chosen = ''; renderList(); });
+  input.addEventListener('focus', renderList);
+  input.addEventListener('blur', function () { list.hidden = true; });
+
+  // Casilla de bases (elemento personalizado)
+  var accepted = false;
+  function toggleTerms() { accepted = !accepted; $('b-chk').classList.toggle('on', accepted); if (accepted) clearErr('b-terms'); }
+  $('b-chk').addEventListener('click', toggleTerms);
+  $('b-chk-t').addEventListener('click', toggleTerms);
+
+  function setErr(id, msg) { var p = $(id + '-e'); p.textContent = msg; p.hidden = false; }
+  function clearErr(id) { var p = $(id + '-e'); if (p) { p.hidden = true; p.textContent = ''; } }
+
+  ['b-nombre', 'b-apellidos', 'b-correo', 'b-movil', 'b-nac', 'b-equipo'].forEach(function (id) {
+    $(id).addEventListener('input', function () { clearErr(id); });
+  });
+  ['b-curso', 'b-talla', 'b-menu'].forEach(function (id) {
+    $(id).addEventListener('change', function () { clearErr(id); });
+  });
+
+  $('fb').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var firstBad = null;
+    function bad(id, msg, focusEl) { setErr(id, msg); if (!firstBad) firstBad = focusEl || $(id); }
+    ['b-nombre', 'b-apellidos', 'b-correo', 'b-movil', 'b-nac', 'b-grado', 'b-curso', 'b-talla', 'b-menu', 'b-equipo', 'b-terms']
+      .forEach(clearErr);
+
+    var nombre = $('b-nombre').value.trim(), apellidos = $('b-apellidos').value.trim();
+    var correo = $('b-correo').value.trim(), movil = $('b-movil').value;
+    var nac = $('b-nac').value, equipo = $('b-equipo').value.trim();
+    var curso = document.querySelector('input[name="b-curso"]:checked');
+    var talla = document.querySelector('input[name="b-talla"]:checked');
+    var menu = Array.prototype.map.call(document.querySelectorAll('input[name="b-menu"]:checked'), function (c) { return c.value; });
+
+    if (!nombre) bad('b-nombre', 'Escribe tu nombre.');
+    if (!apellidos) bad('b-apellidos', 'Escribe tus apellidos.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) bad('b-correo', 'Escribe un correo válido, por ejemplo nombre@dominio.es.');
+    var digits = movil.replace(/[\s.\-()]/g, '').replace(/^(\+34|0034)/, '');
+    if (!/^[6-9]\d{8}$/.test(digits)) bad('b-movil', 'El teléfono debe tener 9 cifras, por ejemplo 612 345 678.');
+    var yr = nac ? +nac.slice(0, 4) : 0;
+    if (!nac || yr < 1940 || yr > 2015) bad('b-nac', 'Indica tu fecha de nacimiento (día, mes y año).');
+    if (!chosen) bad('b-grado', 'Elige tu grado en la lista de sugerencias.', input);
+    if (!curso) bad('b-curso', 'Elige tu curso.', document.querySelector('input[name="b-curso"]'));
+    if (!talla) bad('b-talla', 'Elige tu talla.', document.querySelector('input[name="b-talla"]'));
+    if (!menu.length) bad('b-menu', 'Marca al menos una opción de menú.', document.querySelector('input[name="b-menu"]'));
+    if (!equipo) bad('b-equipo', 'Escribe el nombre de tu equipo.');
+    if (!accepted) bad('b-terms', 'Debes aceptar las bases para inscribirte.', $('b-terms-row'));
+
+    if (firstBad) {
+      H.fail();
+      if (firstBad.focus) firstBad.focus();
+      firstBad.scrollIntoView({ block: 'center' });
+      return;
+    }
+    H.finish({
+      nombre: nombre, apellidos: apellidos, correo: correo, movil: movil,
+      nacimiento: nac, grado: chosen, curso: curso.value, talla: talla.value,
+      menu: menu, equipo: equipo, terminos: accepted
+    });
+  });
+})();
+
+</script>
+</body>
+</html>
