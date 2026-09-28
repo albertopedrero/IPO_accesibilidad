@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resumen del experimento · Bloque 1</title>
+<style>
+:root{
+  color-scheme:light;
+  --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e;
+  --grid:#e1e0d9; --axis:#c3c2b7; --ring:rgba(11,11,11,.10);
+  --sA:#2a78d6; --sB:#eb6834; --accent:#12355b; --accent-ink:#ffffff;
+  --good:#0ca30c; --bad:#d03b3b;
+}
+@media (prefers-color-scheme: dark){
+  :root:where(:not([data-theme="light"])){
+    color-scheme:dark;
+    --page:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink2:#c3c2b7;
+    --grid:#2c2c2a; --axis:#383835; --ring:rgba(255,255,255,.10);
+    --sA:#3987e5; --sB:#d95926; --accent:#86b6ef; --accent-ink:#0b0b0b;
+    --good:#0ca30c; --bad:#e66767;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --page:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink2:#c3c2b7;
+  --grid:#2c2c2a; --axis:#383835; --ring:rgba(255,255,255,.10);
+  --sA:#3987e5; --sB:#d95926; --accent:#86b6ef; --accent-ink:#0b0b0b;
+  --good:#0ca30c; --bad:#e66767;
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+body{margin:0;background:var(--page);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:1.5rem;margin:0 0 4px}
+h2{font-size:1.1rem;margin:0 0 10px}
+.sub{color:var(--ink2);margin:0 0 20px}
+.card{background:var(--surface);border:1px solid var(--ring);border-radius:10px;padding:18px 20px;margin-bottom:18px}
+textarea{width:100%;min-height:130px;font:14px/1.4 ui-monospace,Consolas,monospace;color:var(--ink);background:var(--page);border:1px solid var(--axis);border-radius:8px;padding:10px}
+input[type=url]{width:100%;font:14px/1.4 ui-monospace,Consolas,monospace;color:var(--ink);background:var(--page);border:1px solid var(--axis);border-radius:8px;padding:9px 10px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+button{font:inherit;font-weight:600;color:var(--accent-ink);background:var(--accent);border:2px solid var(--accent);border-radius:8px;padding:7px 16px;cursor:pointer}
+button.sec{background:transparent;color:var(--ink);border-color:var(--axis);font-weight:500}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #f2a900;outline-offset:2px}
+.note{color:var(--ink2);font-size:.9rem}
+.warn{color:var(--ink);font-size:.9rem;border-left:4px solid #fab219;padding-left:10px;margin-top:10px}
+.err{color:var(--ink);font-size:.9rem;border-left:4px solid var(--bad);padding-left:10px;margin-top:10px}
+details.help{margin-top:12px;font-size:.9rem;color:var(--ink2)}
+details.help summary{cursor:pointer;color:var(--ink);font-weight:600}
+details.help ol{margin:10px 0 0;padding-left:22px}
+details.help li{margin-bottom:6px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:1px}
+.dot.on{background:var(--good)} .dot.off{background:var(--axis)}
+
+table{border-collapse:collapse;width:100%}
+caption{text-align:left;font-weight:600;padding-bottom:8px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--grid);vertical-align:top}
+thead th{border-bottom:2px solid var(--axis)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+tbody th[scope=row]{font-weight:500}
+.grp th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink2);padding-top:14px;border-bottom:1px solid var(--axis)}
+.sw{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+.sw.a{background:var(--sA)} .sw.b{background:var(--sB)}
+.iso{display:none;color:var(--ink2);font-size:.85rem;margin-left:6px}
+.showiso .iso{display:inline}
+.grp .iso{margin-left:0}
+
+.chartwrap{position:relative}
+svg{display:block;width:100%;height:auto}
+svg text{fill:var(--ink);font:13px system-ui,-apple-system,"Segoe UI",sans-serif}
+svg .t2{fill:var(--ink2);font-size:12px}
+svg .grid{stroke:var(--grid);stroke-width:1}
+svg .axis{stroke:var(--axis);stroke-width:1}
+svg .surf{stroke:var(--surface)}
+.tip{position:absolute;pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--axis);border-radius:8px;padding:6px 10px;font-size:.85rem;box-shadow:0 4px 14px rgba(0,0,0,.15);white-space:nowrap;z-index:3}
+.legend{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:8px;font-size:.9rem;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend svg{width:14px;height:14px;flex:none}
+.empty{color:var(--ink2);padding:22px 0;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Resumen del experimento · Bloque 1</h1>
+  <p class="sub">Conecta un Google Sheet para que se actualice solo, o pega los códigos a mano. Puedes combinar los dos.</p>
+
+  <section class="card" aria-labelledby="h-sheet">
+    <h2 id="h-sheet">1. Conectar con un Google Sheet (opcional)</h2>
+    <label for="sheeturl" class="note">Pega aquí la URL normal del Sheet (la que ves en la barra de direcciones al abrirlo). No hace falta publicarlo, solo compartirlo como "Cualquiera con el enlace: Lector".</label>
+    <input id="sheeturl" type="url" inputmode="url" autocomplete="off" placeholder="https://docs.google.com/spreadsheets/d/…/edit#gid=…">
+    <div class="row">
+      <button type="button" id="connect">Conectar</button>
+      <button type="button" id="disconnect" class="sec" hidden>Desconectar</button>
+      <a id="opendirect" href="#" target="_blank" rel="noopener" hidden>Abrir esa URL en una pestaña nueva</a>
+      <span id="sheetstatus" class="note" role="status"><span class="dot off" aria-hidden="true"></span>Sin conectar.</span>
+    </div>
+    <p id="sheeterr" class="err" hidden></p>
+    <details class="help">
+      <summary>¿Cómo lo preparo?</summary>
+      <ol>
+        <li>Crea un Google Form con una sola pregunta de <strong>respuesta corta</strong>: «Pega aquí tu código».</li>
+        <li>En el Form, pestaña <strong>Respuestas</strong> → icono de Sheets → «Crear hoja de cálculo».</li>
+        <li>En ese Sheet: <strong>Compartir</strong> → cambia el acceso general a <strong>«Cualquier usuario con el enlace»</strong>, rol <strong>Lector</strong>. No hace falta "Publicar en la Web".</li>
+        <li>Copia la URL de la barra de direcciones del Sheet (tal cual, con su <code>#gid=…</code> si lo tiene) y pégala arriba.</li>
+      </ol>
+      <p>Funciona alojada en GitHub Pages, en un servidor local (Live Server, etc.) o como archivo local: no depende de CORS, así que no importa desde dónde la abras.</p>
+    </details>
+  </section>
+
+  <section class="card" aria-labelledby="h-in">
+    <h2 id="h-in">2. O pega los códigos a mano</h2>
+    <label for="inp" class="note">Un código por línea, por ejemplo <code>A,OK,187,2,0,4</code>. Se suma a lo que llegue del Sheet, sin duplicar entre las dos fuentes.</label>
+    <textarea id="inp" spellcheck="false" placeholder="A,OK,187,2,0,4&#10;B,OK,84,0,0,5&#10;A,ABANDONO,300,4,-,1"></textarea>
+    <div class="row">
+      <button type="button" id="demo" class="sec">Cargar datos de ejemplo (ficticios)</button>
+      <button type="button" id="clear" class="sec">Limpiar</button>
+      <span id="status" class="note" role="status"></span>
+    </div>
+    <p id="warn" class="warn" hidden></p>
+  </section>
+
+  <section class="card" aria-labelledby="h-chart">
+    <h2 id="h-chart">3. Cada punto es un alumno</h2>
+    <div id="empty" class="empty">Aún no hay datos.</div>
+    <div id="chartwrap" class="chartwrap" hidden>
+      <div id="chart"></div>
+      <div id="tip" class="tip" hidden></div>
+      <div class="legend" aria-hidden="true">
+        <span><svg width="14" height="14" viewBox="-7 -7 14 14"><circle r="6" fill="var(--ink2)"/></svg> Datos correctos</span>
+        <span><svg width="14" height="14" viewBox="-7 -7 14 14"><circle r="5" fill="none" stroke="var(--ink2)" stroke-width="2.5"/></svg> Enviaron datos incorrectos</span>
+        <span><svg width="14" height="14" viewBox="-7 -7 14 14"><path d="M-5 -5L5 5M5 -5L-5 5" stroke="var(--ink2)" stroke-width="2.5" fill="none"/></svg> Abandonaron</span>
+        <span>La barra vertical marca la mediana de quienes enviaron el formulario.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-tab">
+    <h2 id="h-tab">4. Comparación</h2>
+    <p class="row" style="margin:0 0 8px"><label class="note"><input type="checkbox" id="iso"> Mostrar el nombre de cada concepto (ISO 9241-11). Déjalo desmarcado si quieres que los alumnos lo deduzcan.</label></p>
+    <div id="tablewrap"></div>
+  </section>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $ = function(id){ return document.getElementById(id); };
+
+/* ---------- Lectura de códigos (texto plano: coma, punto y coma o tabulador) ---------- */
+function parse(text){
+  var rows = [], bad = [];
+  text.split(/\r?\n/).forEach(function(line, i){
+    if(!line.trim()) return;
+    if(/vers|c[oó]digo|marca temporal|estado/i.test(line) && !/^\s*[AB]\s*[,;\t]/i.test(line)) return; // cabecera
+    var t = line.split(/[,;\t]/).map(function(s){ return s.replace(/^["'\s]+|["'\s]+$/g,''); });
+    var k = -1;
+    for(var j=0;j<t.length-1;j++){
+      if(/^[AB]$/i.test(t[j]) && /^(OK|INCORRECTA|ABANDONO)$/i.test(t[j+1])){ k = j; break; }
+    }
+    var num = function(s){ var n = parseFloat(s); return isFinite(n) ? n : null; };
+    if(k < 0 || num(t[k+2]) === null){ bad.push(i+1); return; }
+    rows.push({ v:t[k].toUpperCase(), e:t[k+1].toUpperCase(), secs:num(t[k+2]),
+                fails:num(t[k+3]), wrong:num(t[k+4]), sat:num(t[k+5]),
+                key:[t[k],t[k+1],t[k+2],t[k+3],t[k+4],t[k+5]].join('|') });
+  });
+  return { rows:rows, bad:bad };
+}
+
+/* ---------- CSV real (comillas, comas dentro de campos) ---------- */
+function parseCSV(text){
+  var rows=[], row=[], field='', inQ=false;
+  for(var i=0;i<text.length;i++){
+    var c = text[i];
+    if(inQ){
+      if(c === '"'){ if(text[i+1] === '"'){ field+='"'; i++; } else inQ=false; }
+      else field += c;
+    } else {
+      if(c === '"') inQ = true;
+      else if(c === ',') { row.push(field); field=''; }
+      else if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+      else if(c === '\r'){ /* ignorar */ }
+      else field += c;
+    }
+  }
+  if(field.length || row.length){ row.push(field); rows.push(row); }
+  return rows;
+}
+function csvToPlain(text){
+  return parseCSV(text).map(function(r){ return r.join(','); }).join('\n');
+}
+
+/* ---------- Estadística ---------- */
+function median(a){ if(!a.length) return null; var s=a.slice().sort(function(x,y){return x-y;}), m=s.length>>1; return s.length%2 ? s[m] : (s[m-1]+s[m])/2; }
+function mean(a){ return a.length ? a.reduce(function(x,y){return x+y;},0)/a.length : null; }
+function mmss(s){ if(s===null) return '—'; s=Math.round(s); return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2); }
+function pct(n,t){ return t ? Math.round(100*n/t)+' %' : '—'; }
+function dec(x){ return x===null ? '—' : x.toFixed(1).replace('.',','); }
+
+function stats(rows, v){
+  var r = rows.filter(function(x){ return x.v===v; });
+  var sent = r.filter(function(x){ return x.e!=='ABANDONO'; });
+  return {
+    v:v, n:r.length, rows:r,
+    ok:r.filter(function(x){return x.e==='OK';}).length,
+    inc:r.filter(function(x){return x.e==='INCORRECTA';}).length,
+    ab:r.filter(function(x){return x.e==='ABANDONO';}).length,
+    med:median(sent.map(function(x){return x.secs;})),
+    min:sent.length ? Math.min.apply(null, sent.map(function(x){return x.secs;})) : null,
+    max:sent.length ? Math.max.apply(null, sent.map(function(x){return x.secs;})) : null,
+    fails:mean(r.map(function(x){return x.fails;}).filter(function(x){return x!==null;})),
+    sat:mean(r.map(function(x){return x.sat;}).filter(function(x){return x!==null;}))
+  };
+}
+
+/* ---------- Tabla ---------- */
+function renderTable(A, B){
+  function cell(s, f){ return '<td class="num">'+f(s)+'</td>'; }
+  function line(label, f){ return '<tr><th scope="row">'+label+'</th>'+cell(A,f)+cell(B,f)+'</tr>'; }
+  var h = '<table><caption>Resultados por versión</caption><thead><tr><th scope="col">Medida</th>'+
+    '<th scope="col" class="num"><span class="sw a"></span>Versión A</th>'+
+    '<th scope="col" class="num"><span class="sw b"></span>Versión B</th></tr></thead><tbody>';
+  h += '<tr class="grp"><th colspan="3">Alumnos <span class="iso"></span></th></tr>';
+  h += line('Han participado', function(s){ return s.n; });
+  h += '<tr class="grp"><th colspan="3">¿Consiguieron la tarea? <span class="iso">→ eficacia</span></th></tr>';
+  h += line('Datos correctos', function(s){ return s.ok+' ('+pct(s.ok,s.n)+')'; });
+  h += line('Enviaron con datos incorrectos', function(s){ return s.inc+' ('+pct(s.inc,s.n)+')'; });
+  h += line('Abandonaron', function(s){ return s.ab+' ('+pct(s.ab,s.n)+')'; });
+  h += '<tr class="grp"><th colspan="3">¿Cuánto les costó? <span class="iso">→ eficiencia</span></th></tr>';
+  h += line('Tiempo mediano (quienes enviaron)', function(s){ return mmss(s.med); });
+  h += line('Tiempo mínimo – máximo', function(s){ return s.min===null ? '—' : mmss(s.min)+' – '+mmss(s.max); });
+  h += line('Envíos rechazados por alumno (media)', function(s){ return dec(s.fails); });
+  h += '<tr class="grp"><th colspan="3">¿Cómo lo vivieron? <span class="iso">→ satisfacción</span></th></tr>';
+  h += line('Valoración media (1 a 5)', function(s){ return dec(s.sat); });
+  h += '</tbody></table>';
+  $('tablewrap').innerHTML = h;
+}
+
+/* ---------- Gráfico de puntos ---------- */
+var pts = [];
+function renderChart(A, B){
+  pts = [];
+  var W=920, H=300, L=104, R=24, T=24, Bt=58;
+  var all = A.rows.concat(B.rows);
+  var max = Math.max.apply(null, all.map(function(x){return x.secs;}).concat([60]));
+  var step = max>900 ? 180 : max>600 ? 120 : max>300 ? 60 : 30;
+  var xmax = Math.ceil(max*1.06/step)*step;
+  var x = function(s){ return L + (W-L-R)*s/xmax; };
+  var bandH = (H-T-Bt)/2;
+  var cy = { A:T+bandH*0.5, B:T+bandH*1.5 };
+  var col = { A:'var(--sA)', B:'var(--sB)' };
+  var s = '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Tiempo empleado por cada alumno en las versiones A y B. El detalle numérico está en la tabla inferior.">';
+  for(var t=0;t<=xmax;t+=step){
+    s += '<line class="grid" x1="'+x(t)+'" x2="'+x(t)+'" y1="'+T+'" y2="'+(H-Bt)+'"/>';
+    s += '<text class="t2" x="'+x(t)+'" y="'+(H-Bt+18)+'" text-anchor="middle">'+mmss(t)+'</text>';
+  }
+  s += '<line class="axis" x1="'+L+'" x2="'+(W-R)+'" y1="'+(H-Bt)+'" y2="'+(H-Bt)+'"/>';
+  s += '<line class="axis" x1="'+L+'" x2="'+(W-R)+'" y1="'+(T+bandH)+'" y2="'+(T+bandH)+'"/>';
+  s += '<text class="t2" x="'+((L+W-R)/2)+'" y="'+(H-10)+'" text-anchor="middle">Tiempo hasta enviar o abandonar (min:s)</text>';
+  [A,B].forEach(function(st){
+    var c = cy[st.v];
+    s += '<text x="8" y="'+(c-4)+'" style="font-weight:600">Versión '+st.v+'</text>';
+    s += '<text class="t2" x="8" y="'+(c+14)+'">'+st.n+' alumnos</text>';
+    if(st.med !== null){
+      s += '<line x1="'+x(st.med)+'" x2="'+x(st.med)+'" y1="'+(c-bandH*0.46)+'" y2="'+(c+bandH*0.46)+'" stroke="'+col[st.v]+'" stroke-width="3" stroke-linecap="round"/>';
+      s += '<text x="'+(x(st.med)+7)+'" y="'+(c-bandH*0.46+10)+'" style="font-weight:600">mediana '+mmss(st.med)+'</text>';
+    }
+    st.rows.forEach(function(r, i){
+      var jit = (((i*61)%17)/16 - 0.5) * bandH * 0.62;
+      var px = x(r.secs), py = c + jit + 8, idx = pts.length;
+      pts.push(r);
+      s += '<g data-i="'+idx+'" class="pt" style="cursor:default">';
+      if(r.e==='OK') s += '<circle cx="'+px+'" cy="'+py+'" r="6" fill="'+col[r.v]+'" class="surf" stroke-width="2"/>';
+      else if(r.e==='INCORRECTA') s += '<circle cx="'+px+'" cy="'+py+'" r="5" fill="var(--surface)" stroke="'+col[r.v]+'" stroke-width="2.5"/>';
+      else s += '<path transform="translate('+px+','+py+')" d="M-5 -5L5 5M5 -5L-5 5" stroke="'+col[r.v]+'" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+      s += '<circle cx="'+px+'" cy="'+py+'" r="11" fill="transparent"/></g>';
+    });
+  });
+  s += '</svg>';
+  $('chart').innerHTML = s;
+}
+
+var tip = $('tip');
+function showTip(e){
+  var g = e.target.closest ? e.target.closest('g.pt') : null;
+  if(!g){ tip.hidden = true; return; }
+  var r = pts[+g.getAttribute('data-i')];
+  var estado = { OK:'datos correctos', INCORRECTA:'datos incorrectos', ABANDONO:'abandonó' }[r.e];
+  tip.textContent = 'Versión '+r.v+' · '+estado+' · '+mmss(r.secs)+
+    (r.fails!==null ? ' · '+r.fails+' rechazo'+(r.fails===1?'':'s') : '')+
+    (r.sat!==null ? ' · valoración '+r.sat : '');
+  tip.hidden = false;
+  var box = $('chartwrap').getBoundingClientRect();
+  var px = e.clientX - box.left + 14, py = e.clientY - box.top - 34;
+  var tw = tip.offsetWidth;
+  if(px + tw > box.width) px = e.clientX - box.left - tw - 14;
+  tip.style.left = Math.max(0,px)+'px'; tip.style.top = Math.max(0,py)+'px';
+}
+$('chart').addEventListener('mousemove', showTip);
+$('chart').addEventListener('mouseleave', function(){ tip.hidden = true; });
+
+/* ---------- Fuente 1: Google Sheet, vía JSONP (no usa fetch, así que no le afecta CORS) ---------- */
+var sheetRows = [], sheetTimer = null, gvizSeq = 0;
+
+function setSheetStatus(text, on){
+  $('sheetstatus').innerHTML = '<span class="dot '+(on?'on':'off')+'" aria-hidden="true"></span>'+text;
+}
+
+/* Acepta: URL normal del Sheet (…/spreadsheets/d/ID/edit#gid=123), o el ID a secas.
+   La URL "Publicar en la Web" (…/d/e/2PACX…/pub) lleva un identificador distinto que
+   NO sirve para esto: se detecta y se avisa. */
+function parseSheetRef(input){
+  var pub = /\/spreadsheets\/d\/e\/([^/?#]+)\/pub/.exec(input);
+  if(pub) return { error:'pub' };
+  var idm = /\/spreadsheets\/d\/([^/?#]+)/.exec(input) || /^([a-zA-Z0-9-_]{20,})$/.exec(input.trim());
+  if(!idm) return { error:'noid' };
+  var gidm = /[?&#]gid=([0-9]+)/.exec(input);
+  return { id: idm[1], gid: gidm ? gidm[1] : null };
+}
+
+function gvizFetch(id, gid, timeoutMs){
+  return new Promise(function(resolve, reject){
+    var cbName = '__gvizCB_' + (++gvizSeq);
+    var done = false, script = document.createElement('script');
+    var timer = setTimeout(function(){ finish(function(){ reject({ kind:'timeout', message:'No se ha recibido respuesta del Sheet en '+Math.round(timeoutMs/1000)+' s.' }); }); }, timeoutMs);
+    function finish(fn){
+      if(done) return; done = true;
+      clearTimeout(timer);
+      delete window[cbName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+      fn();
+    }
+    window[cbName] = function(resp){
+      finish(function(){
+        if(!resp || resp.status === 'error'){
+          var m = resp && resp.errors && resp.errors[0] && (resp.errors[0].detailed_message || resp.errors[0].message);
+          reject({ kind:'gviz', message: m || 'El Sheet ha devuelto un error. Comprueba que está compartido como "Cualquier usuario con el enlace: Lector".' });
+          return;
+        }
+        resolve(resp);
+      });
+    };
+    script.onerror = function(){ finish(function(){ reject({ kind:'network', message:'No se ha podido cargar el Sheet (red, o el ID de la URL no es correcto).' }); }); };
+    script.src = 'https://docs.google.com/spreadsheets/d/' + encodeURIComponent(id) + '/gviz/tq'
+      + '?tqx=out:json;responseHandler:' + cbName
+      + (gid != null ? '&gid=' + encodeURIComponent(gid) : '')
+      + '&_=' + Date.now();
+    document.head.appendChild(script);
+  });
+}
+
+function gvizToPlain(resp){
+  var rows = (resp.table && resp.table.rows) || [];
+  return rows.map(function(row){
+    return (row.c || []).map(function(cell){ return (cell && cell.v != null) ? String(cell.v) : ''; }).join(',');
+  }).join('\n');
+}
+
+function pollSheet(ref){
+  gvizFetch(ref.id, ref.gid, 8000).then(function(resp){
+    var res = parse(gvizToPlain(resp));
+    sheetRows = res.rows;
+    $('sheeterr').hidden = true;
+    if(res.rows.length === 0){
+      setSheetStatus('Conectado · 0 códigos con el formato esperado · actualizado '+new Date().toLocaleTimeString('es-ES'), false);
+      $('sheeterr').hidden = false;
+      $('sheeterr').textContent = 'Se ha leído el Sheet, pero ninguna fila tiene el formato versión,estado,segundos,… . Comprueba que el gid de la URL apunta a la pestaña de respuestas del Form (no a una pestaña vacía).';
+    } else {
+      setSheetStatus('Conectado · '+sheetRows.length+' códigos · actualizado '+new Date().toLocaleTimeString('es-ES'), true);
+    }
+    update();
+  }).catch(function(err){
+    setSheetStatus('Conectado, pero la última lectura falló.', false);
+    $('sheeterr').hidden = false;
+    $('sheeterr').textContent = (err && err.message ? err.message : 'Fallo desconocido.') + ' Se reintentará en unos segundos.';
+  });
+}
+
+function startSheet(url){
+  var ref = parseSheetRef(url);
+  if(ref.error === 'pub'){
+    setSheetStatus('Sin conectar.', false);
+    $('sheeterr').hidden = false;
+    $('sheeterr').textContent = 'Esa es la URL de "Publicar en la Web": no sirve para esto. Abre el Sheet normal (desde Respuestas → icono de Sheets en el Form) y copia la URL de la barra de direcciones.';
+    return;
+  }
+  if(ref.error === 'noid'){
+    setSheetStatus('Sin conectar.', false);
+    $('sheeterr').hidden = false;
+    $('sheeterr').textContent = 'No reconozco esa URL como un Google Sheet. Pega la URL completa de la barra de direcciones al tener el Sheet abierto.';
+    return;
+  }
+  stopSheet();
+  sheetRows = [];
+  $('disconnect').hidden = false;
+  $('opendirect').href = 'https://docs.google.com/spreadsheets/d/' + ref.id + '/edit' + (ref.gid ? '#gid=' + ref.gid : '');
+  $('opendirect').hidden = false;
+  setSheetStatus('Conectando…', false);
+  pollSheet(ref);
+  sheetTimer = setInterval(function(){ pollSheet(ref); }, 5000);
+  var u = new URL(location.href); u.searchParams.set('sheet', url); history.replaceState(null, '', u);
+}
+function stopSheet(){
+  if(sheetTimer){ clearInterval(sheetTimer); sheetTimer = null; }
+  sheetRows = [];
+  $('disconnect').hidden = true;
+  $('opendirect').hidden = true;
+  $('sheeterr').hidden = true;
+  setSheetStatus('Sin conectar.', false);
+}
+$('connect').addEventListener('click', function(){
+  var url = $('sheeturl').value.trim();
+  if(!url){ $('sheeturl').focus(); return; }
+  startSheet(url);
+});
+$('disconnect').addEventListener('click', function(){
+  var u = new URL(location.href); u.searchParams.delete('sheet'); history.replaceState(null, '', u);
+  stopSheet(); update();
+});
+
+/* ---------- Actualización (combina Sheet + texto pegado, sin duplicar) ---------- */
+function update(){
+  var res = parse($('inp').value);
+  var seen = {}, rows = [];
+  sheetRows.concat(res.rows).forEach(function(r){ if(!seen[r.key]){ seen[r.key]=1; rows.push(r); } });
+  var A = stats(rows,'A'), B = stats(rows,'B');
+  $('status').textContent = res.rows.length ? res.rows.length+' códigos pegados a mano.' : '';
+  if(res.bad.length){
+    $('warn').hidden = false;
+    $('warn').textContent = 'No se han podido leer las líneas pegadas: '+res.bad.slice(0,12).join(', ')+(res.bad.length>12?'…':'')+'. Formato esperado: versión,estado,segundos,fallos,incorrectos,satisfacción.';
+  } else { $('warn').hidden = true; }
+  var has = rows.length > 0;
+  $('empty').hidden = has; $('chartwrap').hidden = !has;
+  if(has){ renderChart(A,B); renderTable(A,B); }
+  else { $('tablewrap').innerHTML = '<p class="empty">Aún no hay datos.</p>'; }
+}
+$('inp').addEventListener('input', update);
+$('clear').addEventListener('click', function(){ $('inp').value=''; update(); $('inp').focus(); });
+$('iso').addEventListener('change', function(){ $('tablewrap').classList.toggle('showiso', $('iso').checked); });
+
+/* ---------- Datos de ejemplo (ficticios, con semilla fija) ---------- */
+function rng(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed>>>15, 1|seed); t = t + Math.imul(t ^ t>>>7, 61|t) ^ t; return ((t ^ t>>>14)>>>0)/4294967296; }; }
+$('demo').addEventListener('click', function(){
+  var r = rng(2026), out = [];
+  function pick(a){ return a[Math.floor(r()*a.length)]; }
+  for(var i=0;i<28;i++){
+    var u = r();
+    if(u < .14) out.push(['A','ABANDONO',Math.round(200+r()*160),Math.round(2+r()*3),'-',pick([1,1,2])]);
+    else if(u < .5) out.push(['A','INCORRECTA',Math.round(230+r()*230),Math.round(r()*3),pick([1,1,2]),pick([1,2,2,3])]);
+    else out.push(['A','OK',Math.round(260+r()*280),Math.round(1+r()*3),0,pick([1,2,2,3])]);
+  }
+  for(var j=0;j<28;j++){
+    var w = r();
+    if(w < .04) out.push(['B','ABANDONO',Math.round(150+r()*60),1,'-',3]);
+    else if(w < .14) out.push(['B','INCORRECTA',Math.round(70+r()*60),Math.round(r()*2),1,pick([3,4])]);
+    else out.push(['B','OK',Math.round(60+r()*90),pick([0,0,1,1,2]),0,pick([3,4,4,5,5])]);
+  }
+  $('inp').value = out.map(function(o){ return o.join(','); }).join('\n');
+  update();
+});
+
+/* ---------- Arranque: reconecta si la URL trae ?sheet= ---------- */
+var initialSheet = new URL(location.href).searchParams.get('sheet');
+if(initialSheet){ $('sheeturl').value = initialSheet; startSheet(initialSheet); }
+update();
+})();
+</script>
+</body>
+</html>
